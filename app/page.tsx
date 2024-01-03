@@ -12,20 +12,107 @@ import {
   TextField,
 } from "@mui/material";
 import Camera from "./components/Camera";
+import axios from "axios";
+import { createTaskApi } from "./api/taskApi/task";
+import { set, useForm } from "react-hook-form";
+import { IType } from "@/types/IType";
+import { getfindTypesApi } from "./api/type/typeApi";
+import { ITaskCreate } from "./types/ITask";
+import toast, { Toaster } from "react-hot-toast";
+
+type FormData = {
+  title: string;
+  phone: string;
+  remark: string;
+  type: string;
+};
 
 export default function Home() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [dataImage, setDataImage] = React.useState("");
+  const [dataType, setDataType] = React.useState<IType[]>([]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const result = await getfindTypesApi();
+      setDataType(result);
+    };
+    fetchData();
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>();
 
   console.log(status);
   console.log("session", session);
 
-  const handleSignOut = async () => {
-    const data = await signOut({ redirect: false, callbackUrl: "/" });
+  const handleUpload = async (data: FormData) => {
+    const formData = new FormData();
+    formData.append("file", dataImage);
+    formData.append("upload_preset", "reportImg");
 
-    if (data?.url) {
-      router.push(data.url);
+    try {
+      const response = await axios.post(
+        process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_URL!!,
+        formData
+      );
+      const url = response.data.secure_url;
+      console.log(url);
+      if (!url) {
+        return;
+      }
+      const payload: ITaskCreate = {
+        userId: session?.user.id!!,
+        name: session?.user.name!!,
+        phone: data.phone,
+        title: data.title,
+        remark: data.remark,
+        type: data.type,
+        imageStart: url,
+      };
+      const res = createTaskApi(payload);
+      res
+        .then((res) => {
+          if (res.message === "Created task successfully") {
+            toast.success("เเจ้งปัญหาสำเร็จ");
+          } else {
+            toast.error("เเจ้งปัญหาไม่สำเร็จ", {
+              style: {
+                border: "1px solid #713200",
+                padding: "16px",
+                color: "#dc8000",
+              },
+              iconTheme: {
+                primary: "#dc8000",
+                secondary: "#FFFAEE",
+              },
+            });
+          }
+        })
+        .catch((err) => {
+          toast.error("เเจ้งปัญหาไม่สำเร็จ", {
+            style: {
+              border: "1px solid #713200",
+              padding: "16px",
+              color: "#dc8000",
+            },
+            iconTheme: {
+              primary: "#dc8000",
+              secondary: "#FFFAEE",
+            },
+          });
+        });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1200);
     }
   };
 
@@ -46,51 +133,69 @@ export default function Home() {
             <div>ชื่อผู้ใช้ : {session?.user.name}</div>
             <form
               className="flex flex-col gap-2 justify-center items-center"
-              // onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(handleUpload)}
             >
               <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
                 <TextField
-                  id="name"
+                  id="title"
                   variant="outlined"
                   size="small"
                   label="ชื่อปัญหา"
                   color="success"
-                  // {...register("name", { required: true })}
+                  {...register("title", { required: true })}
                 />
                 <p className="text-[12px] ml-1 text-[#b91515]">
-                  {/* {errors.name &&
-                        errors.name.type === "required" &&
-                        "กรุณากรอกชื่อผู้ใช้"} */}
+                  {errors.title &&
+                    errors.title.type === "required" &&
+                    "กรุณากรอกชื่อปัญหา"}
                 </p>
               </FormControl>
               <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
                 <TextField
-                  id="name"
+                  id="remark"
                   variant="outlined"
                   size="small"
                   label="รายละเอียดปัญหา"
                   color="success"
-                  // {...register("name", { required: true })}
+                  {...register("remark", { required: true })}
                 />
                 <p className="text-[12px] ml-1 text-[#b91515]">
-                  {/* {errors.name &&
-                        errors.name.type === "required" &&
-                        "กรุณากรอกชื่อผู้ใช้"} */}
+                  {errors.remark &&
+                    errors.remark.type === "required" &&
+                    "กรุณากรอกรายละเอียดปัญหา"}
                 </p>
               </FormControl>
               <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
                 <TextField
-                  id="name"
+                  id="phone"
                   variant="outlined"
                   size="small"
-                  label="เบอร์โทรศัพท์ติดต่อ"
+                  label="เบอร์โทรศัพท์"
                   color="success"
-                  // {...register("name", { required: true })}
+                  {...register("phone", {
+                    required: true,
+                    pattern: {
+                      value: /^(06|08|09)\d{8}$/,
+                      message: "กรุณากรอกเบอร์โทรศัพท์ผู้ใช้ให้ถูกต้อง",
+                    },
+                  })}
+                  inputProps={{
+                    maxLength: 10,
+                    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+                      event.target.value = event.target.value.replace(
+                        /[^0-9]/g,
+                        ""
+                      );
+                    },
+                  }}
                 />
                 <p className="text-[12px] ml-1 text-[#b91515]">
-                  {/* {errors.name &&
-                        errors.name.type === "required" &&
-                        "กรุณากรอกชื่อผู้ใช้"} */}
+                  {errors.phone &&
+                    errors.phone.type === "required" &&
+                    "กรุณากรอกเบอร์โทรศัพท์ผู้ใช้"}
+                  {errors.phone &&
+                    errors.phone.type === "pattern" &&
+                    errors.phone.message}
                 </p>
               </FormControl>
               <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
@@ -100,20 +205,20 @@ export default function Home() {
                 <Select
                   label="ประเภทปัญหา"
                   id="role"
-                  // inputProps={{ ...register("role", { required: true }) }}
+                  inputProps={{ ...register("type", { required: true }) }}
                   defaultValue={""}
                   color="success"
                 >
-                  {/* {dataType.map((item, index) => (
-                      <MenuItem key={item._id} value={item.typeName}>
-                        {item.typeName}
-                      </MenuItem>
-                    ))} */}
+                  {dataType.map((item, index) => (
+                    <MenuItem key={item._id} value={item.typeName}>
+                      {item.typeName}
+                    </MenuItem>
+                  ))}
                 </Select>
                 <p className="text-[12px] ml-1 text-[#b91515]">
-                  {/* {errors.role &&
-                      errors.role.type === "required" &&
-                      "กรุณาเลือกประเภทงานผู้ใช้"} */}
+                  {errors.type &&
+                    errors.type.type === "required" &&
+                    "กรุณาเลือกประเภทปัญหา"}
                 </p>
                 <Camera dataImg={setDataImage} />
                 <div className="flex gap-10 items-start md:justify-end justify-center md:items-center mt-5">
@@ -132,6 +237,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Toaster position="bottom-right" />
     </>
   );
 }
