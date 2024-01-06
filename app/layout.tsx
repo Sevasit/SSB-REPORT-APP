@@ -18,10 +18,10 @@ export default function RootLayout({
 }) {
   return (
     <NextAuthProvider>
-      <html lang="en">
+      <html lang="en" className=" h-auto">
         <body
           style={{ fontFamily: "var(--font-prompt)" }}
-          className={FontPrompt.variable}
+          className={`${FontPrompt.variable}`}
         >
           {children}
         </body>
