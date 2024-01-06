@@ -59,11 +59,11 @@ const Camera = (props: Props) => {
             )
           )}
         </div>
-        <div className="flex gap-10 items-start md:justify-end justify-center md:items-center mt-5">
+        <div className="flex gap-10 justify-between items-center mt-5">
           {imgSrc === null ? (
             <button
               type="button"
-              className=" w-28 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
+              className=" w-20 text-xs bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
               onClick={capture}
             >
               ถ่ายรูป
@@ -71,7 +71,7 @@ const Camera = (props: Props) => {
           ) : (
             <button
               type="button"
-              className=" w-28 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
+              className=" w-24 text-xs bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
               onClick={() => {
                 setIsCameraActive(true);
                 setImgSrc(null);
@@ -83,7 +83,7 @@ const Camera = (props: Props) => {
           <button
             type="button"
             onClick={handleClick}
-            className=" w-28 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
+            className=" w-24 text-xs bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
           >
             <span>สลับกล้อง</span>
           </button>
