@@ -10,19 +10,19 @@ import {
   MenuItem,
   Select,
   TextField,
+  TextareaAutosize,
 } from "@mui/material";
 import axios from "axios";
 import { set, useForm } from "react-hook-form";
 import { IType } from "@/types/IType";
 import toast, { Toaster } from "react-hot-toast";
-import { getfindTypesApi } from "../api/type/typeApi";
-import { ITaskCreate } from "../types/ITask";
+import { getfindTypesApi } from "../api/typeApi/typeApi";
+import { ITaskCreate } from "../../types/ITask";
 import { createTaskApi } from "../api/taskApi/task";
 import Camera from "../components/Camera";
 import Link from "next/link";
 
 type FormData = {
-  title: string;
   phone: string;
   remark: string;
   type: string;
@@ -85,7 +85,6 @@ export default function Report() {
         userId: session?.user.id!!,
         name: session?.user.name!!,
         phone: data.phone,
-        title: data.title,
         remark: data.remark,
         type: data.type,
         imageStart: url,
@@ -136,40 +135,19 @@ export default function Report() {
       <div className="px-[5%] mx-5 mt-5 flex flex-col gap-4 p-5 rounded-lg border-4 border-[#00DC82]">
         <div className="flex justify-center">
           <div className="flex flex-col gap-4 justify-center items-center">
-            {/* <div>การเเจ้งปัญหาภายในคณะบริหารธุรกิจ</div>
-            <Image
-              src={session === undefined ? avatar : session?.user.image!!}
-              alt="Avatar Line"
-              width={100}
-              height={100}
-              priority
-              className="rounded-full shadow-md shadow-black"
-            /> */}
             <div>ชื่อผู้ใช้ : {session?.user.name}</div>
             <form
               className="flex flex-col gap-2 justify-center items-center"
               onSubmit={handleSubmit(handleUpload)}
             >
-              <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
-                <TextField
-                  id="title"
-                  variant="outlined"
-                  size="small"
-                  label="ชื่อปัญหา"
-                  color="success"
-                  {...register("title", { required: true })}
-                />
-                <p className="text-[12px] ml-1 text-[#b91515]">
-                  {errors.title &&
-                    errors.title.type === "required" &&
-                    "กรุณากรอกชื่อปัญหา"}
-                </p>
-              </FormControl>
+              <Camera dataImg={setDataImage} />
               <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
                 <TextField
                   id="remark"
                   variant="outlined"
                   size="small"
+                  multiline
+                  rows={3}
                   label="รายละเอียดปัญหา"
                   color="success"
                   {...register("remark", { required: true })}
@@ -235,21 +213,21 @@ export default function Report() {
                     errors.type.type === "required" &&
                     "กรุณาเลือกประเภทปัญหา"}
                 </p>
-                <Camera dataImg={setDataImage} />
-                <div className="flex gap-10 items-start md:justify-end justify-center md:items-center mt-5">
-                  <Link href="/">
-                    <div className=" w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#b91515] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center">
-                      <span>ยกเลิก</span>
-                    </div>
-                  </Link>
-                  <button
-                    type="submit"
-                    className=" w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center"
-                  >
-                    <span>ยืนยัน</span>
-                  </button>
-                </div>
               </FormControl>
+
+              <div className="flex gap-10 items-start md:justify-end justify-center md:items-center mt-5">
+                <Link href="/">
+                  <div className=" w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#b91515] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center">
+                    <span>ยกเลิก</span>
+                  </div>
+                </Link>
+                <button
+                  type="submit"
+                  className=" w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center"
+                >
+                  <span>ยืนยัน</span>
+                </button>
+              </div>
             </form>
           </div>
         </div>
