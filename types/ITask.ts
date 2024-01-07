@@ -22,3 +22,20 @@ export interface ITaskFindByUserId {
   imageStart: string;
   createdAt: Dayjs;
 }
+
+export interface ITaskFindByUserIdCompleted {
+  _id: string;
+  imageEnd: string;
+  type: string;
+  status: string;
+  building: string;
+  location: string;
+  processAt: Dayjs;
+  createdAt: Dayjs;
+  point: number;
+}
+
+export interface ITaskSendPonit {
+  id: string;
+  point: number;
+}

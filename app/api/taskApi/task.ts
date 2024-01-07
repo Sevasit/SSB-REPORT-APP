@@ -1,5 +1,10 @@
 import { IResponseDefault } from "@/types/IResponseDefult";
-import { ITaskCreate, ITaskFindByUserId } from "@/types/ITask";
+import {
+  ITaskCreate,
+  ITaskFindByUserId,
+  ITaskFindByUserIdCompleted,
+  ITaskSendPonit,
+} from "@/types/ITask";
 import AxiosCustom from "@/app/utils/AxiosApi";
 
 export const createTaskApi = async (payload: ITaskCreate) => {
@@ -18,10 +23,41 @@ export const createTaskApi = async (payload: ITaskCreate) => {
   }
 };
 
+export const sendPointTask = async (payload: ITaskSendPonit) => {
+  try {
+    const response = await AxiosCustom.patch<IResponseDefault>(
+      `/tasks/sendPoint`,
+      payload
+    );
+    if (response?.data === undefined) {
+      throw "error undefined";
+    }
+    return response?.data;
+  } catch (err) {
+    console.error(err);
+    throw Promise.reject(err);
+  }
+};
+
 export const findAllByIdUser = async (id: string) => {
   try {
     const response = await AxiosCustom.get<ITaskFindByUserId[]>(
       `/tasks/findAllByIdUser?userId=${id}`
+    );
+    if (response?.data === undefined) {
+      throw "error undefined";
+    }
+    return response?.data;
+  } catch (err) {
+    console.error(err);
+    throw Promise.reject(err);
+  }
+};
+
+export const findCompletedByIdUser = async (id: string) => {
+  try {
+    const response = await AxiosCustom.get<ITaskFindByUserIdCompleted[]>(
+      `/tasks/findCompleteByIdUser?userId=${id}`
     );
     if (response?.data === undefined) {
       throw "error undefined";
