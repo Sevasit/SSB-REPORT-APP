@@ -13,7 +13,6 @@ import dayjs from "dayjs";
 import "dayjs/locale/th";
 import buddhistEra from "dayjs/plugin/buddhistEra";
 import relativeTime from "dayjs/plugin/relativeTime";
-import imageTest from "../../public/avatar.png";
 dayjs.locale("th");
 dayjs.extend(buddhistEra);
 dayjs.extend(relativeTime);
@@ -63,7 +62,7 @@ const Followup = (props: Props) => {
               ) : (
                 dataFind.map((item, index) => (
                   <Card
-                    sx={{ minWidth: 300, maxHeight: 500 }}
+                    sx={{ minWidth: 270, maxHeight: 500 }}
                     key={item._id}
                     className=" border"
                   >
@@ -71,7 +70,7 @@ const Followup = (props: Props) => {
                       <Image
                         width={170}
                         height={170}
-                        src={session?.user.image!!}
+                        src={item.imageStart}
                         alt="image report"
                         className=" shadow-xl border-2 border-gray-200"
                       />
@@ -117,7 +116,7 @@ const Followup = (props: Props) => {
                         </span>
                       </div>
                       <div>
-                        <span className=" font-extrabold text-black text-sm">{`วันที่เเจ้ง : `}</span>
+                        <span className=" font-extrabold text-black text-sm">{`เวลาที่เเจ้ง : `}</span>
                         <span className=" text-xs">
                           {dayjs().to(dayjs.unix(dayjs(item.createdAt).unix()))}
                         </span>
@@ -136,8 +135,8 @@ const Followup = (props: Props) => {
           </div>
           <div>
             <Link href="/">
-              <div className=" w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#b91515] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center">
-                <span>ยกเลิก</span>
+              <div className=" text-sm w-24 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#b91515] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center">
+                <span>กลับสู่เมนู</span>
               </div>
             </Link>
           </div>
