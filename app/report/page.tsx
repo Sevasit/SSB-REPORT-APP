@@ -21,10 +21,14 @@ import { ITaskCreate } from "../../types/ITask";
 import { createTaskApi } from "../api/taskApi/task";
 import Camera from "../components/Camera";
 import Link from "next/link";
+import { IBuilding } from "@/types/IBuilding";
+import { getFindAllBuliding } from "../api/buildingApi/building";
 
 type FormData = {
   phone: string;
   remark: string;
+  building: string;
+  location: string;
   type: string;
 };
 
@@ -33,13 +37,19 @@ export default function Report() {
   const { data: session, status } = useSession();
   const [dataImage, setDataImage] = React.useState("");
   const [dataType, setDataType] = React.useState<IType[]>([]);
-
+  const [dataBuilding, setDataBuilding] = React.useState<IBuilding[]>([]);
   React.useEffect(() => {
     const fetchData = async () => {
       const result = await getfindTypesApi();
       setDataType(result);
     };
+
+    const fetchDataBuilding = async () => {
+      const result = await getFindAllBuliding();
+      setDataBuilding(result);
+    };
     fetchData();
+    fetchDataBuilding();
   }, []);
 
   const {
@@ -84,6 +94,8 @@ export default function Report() {
       const payload: ITaskCreate = {
         userId: session?.user.id!!,
         name: session?.user.name!!,
+        building: data.building,
+        location: data.location,
         phone: data.phone,
         remark: data.remark,
         type: data.type,
@@ -142,6 +154,29 @@ export default function Report() {
             >
               <Camera dataImg={setDataImage} />
               <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
+                <InputLabel id="demo-simple-select-label" color="success">
+                  ประเภทปัญหา
+                </InputLabel>
+                <Select
+                  label="ประเภทปัญหา"
+                  id="role"
+                  inputProps={{ ...register("type", { required: true }) }}
+                  defaultValue={""}
+                  color="success"
+                >
+                  {dataType.map((item, index) => (
+                    <MenuItem key={item._id} value={item.typeName}>
+                      {item.typeName}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <p className="text-[12px] ml-1 text-[#b91515]">
+                  {errors.type &&
+                    errors.type.type === "required" &&
+                    "กรุณาเลือกประเภทปัญหา"}
+                </p>
+              </FormControl>
+              <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
                 <TextField
                   id="remark"
                   variant="outlined"
@@ -156,6 +191,46 @@ export default function Report() {
                   {errors.remark &&
                     errors.remark.type === "required" &&
                     "กรุณากรอกรายละเอียดปัญหา"}
+                </p>
+              </FormControl>
+              <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
+                <InputLabel id="demo-simple-select-label" color="success">
+                  อาคาร
+                </InputLabel>
+                <Select
+                  label="อาคาร"
+                  id="building"
+                  inputProps={{ ...register("building", { required: true }) }}
+                  defaultValue={""}
+                  color="success"
+                >
+                  {dataBuilding.map((item, index) => (
+                    <MenuItem key={item._id} value={item.nameBuilding}>
+                      {item.nameBuilding}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <p className="text-[12px] ml-1 text-[#b91515]">
+                  {errors.building &&
+                    errors.building.type === "required" &&
+                    "กรุณาเลือกอาคาร"}
+                </p>
+              </FormControl>
+              <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
+                <TextField
+                  id="location"
+                  variant="outlined"
+                  size="small"
+                  multiline
+                  rows={2}
+                  label="รายละเอียดสถานที่"
+                  color="success"
+                  {...register("location", { required: true })}
+                />
+                <p className="text-[12px] ml-1 text-[#b91515]">
+                  {errors.location &&
+                    errors.location.type === "required" &&
+                    "กรุณากรอกรายละเอียดสถานที่"}
                 </p>
               </FormControl>
               <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
@@ -189,29 +264,6 @@ export default function Report() {
                   {errors.phone &&
                     errors.phone.type === "pattern" &&
                     errors.phone.message}
-                </p>
-              </FormControl>
-              <FormControl size="small" sx={{ minWidth: 300, minHeight: 60 }}>
-                <InputLabel id="demo-simple-select-label" color="success">
-                  ประเภทปัญหา
-                </InputLabel>
-                <Select
-                  label="ประเภทปัญหา"
-                  id="role"
-                  inputProps={{ ...register("type", { required: true }) }}
-                  defaultValue={""}
-                  color="success"
-                >
-                  {dataType.map((item, index) => (
-                    <MenuItem key={item._id} value={item.typeName}>
-                      {item.typeName}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <p className="text-[12px] ml-1 text-[#b91515]">
-                  {errors.type &&
-                    errors.type.type === "required" &&
-                    "กรุณาเลือกประเภทปัญหา"}
                 </p>
               </FormControl>
 

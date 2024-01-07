@@ -5,6 +5,8 @@ export interface ITaskCreate {
   name: string;
   phone: string;
   remark: string;
+  building: string;
+  location: string;
   type: string;
   imageStart: string;
 }
@@ -15,6 +17,8 @@ export interface ITaskFindByUserId {
   remark: string;
   type: string;
   status: string;
+  building: string;
+  location: string;
   imageStart: string;
   createdAt: Dayjs;
 }
