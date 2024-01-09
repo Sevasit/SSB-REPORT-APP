@@ -17,6 +17,7 @@ export const createTaskApi = async (payload: ITaskCreate) => {
         headers: {
           "Access-Control-Allow-Origin": "*",
         },
+        withCredentials: true,
       }
     );
     if (response?.data === undefined) {
