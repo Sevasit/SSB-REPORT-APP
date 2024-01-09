@@ -106,6 +106,7 @@ export default function Report() {
         .then((res) => {
           if (res.message === "Created task successfully") {
             toast.success("เเจ้งปัญหาสำเร็จ");
+            router.push("/");
           } else {
             toast.error("เเจ้งปัญหาไม่สำเร็จ", {
               style: {
@@ -135,10 +136,6 @@ export default function Report() {
         });
     } catch (error) {
       console.error(error);
-    } finally {
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
     }
   };
 
