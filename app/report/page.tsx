@@ -10,19 +10,16 @@ import {
   MenuItem,
   Select,
   TextField,
-  TextareaAutosize,
 } from "@mui/material";
 import axios from "axios";
-import { set, useForm } from "react-hook-form";
-import { IType } from "@/types/IType";
+import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { getfindTypesApi } from "../api/typeApi/typeApi";
 import { ITaskCreate } from "../../types/ITask";
-import { createTaskApi } from "../api/taskApi/task";
 import Camera from "../components/Camera";
 import Link from "next/link";
-import { IBuilding } from "@/types/IBuilding";
-import { getFindAllBuliding } from "../api/buildingApi/building";
+import useGetType from "@/hooks/type/useGetType";
+import useGetBuilding from "@/hooks/buildings/useGetBuilding";
+import useCreateTask from "@/hooks/tasks/useCreateTask";
 
 type FormData = {
   phone: string;
@@ -36,21 +33,24 @@ export default function Report() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [dataImage, setDataImage] = React.useState("");
-  const [dataType, setDataType] = React.useState<IType[]>([]);
-  const [dataBuilding, setDataBuilding] = React.useState<IBuilding[]>([]);
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const result = await getfindTypesApi();
-      setDataType(result);
-    };
 
-    const fetchDataBuilding = async () => {
-      const result = await getFindAllBuliding();
-      setDataBuilding(result);
-    };
-    fetchData();
-    fetchDataBuilding();
-  }, []);
+  const {
+    data: dataTypes = [],
+    isLoading: getISLoading,
+    isError: getISError,
+  } = useGetType();
+
+  const {
+    data: dataBuilding = [],
+    isLoading: buildingISLoading,
+    isError: buildingISError,
+  } = useGetBuilding();
+
+  const {
+    mutateAsync: mutateAsyncCreateTask,
+    isLoading: createTaskISLoading,
+    isError: createTaskISError,
+  } = useCreateTask();
 
   const {
     register,
@@ -101,7 +101,7 @@ export default function Report() {
         type: data.type,
         imageStart: url,
       };
-      const res = createTaskApi(payload);
+      const res = mutateAsyncCreateTask(payload);
       res
         .then((res) => {
           if (res.message === "Created task successfully") {
@@ -164,7 +164,7 @@ export default function Report() {
                   defaultValue={""}
                   color="success"
                 >
-                  {dataType.map((item, index) => (
+                  {dataTypes.map((item, index) => (
                     <MenuItem key={item._id} value={item.typeName}>
                       {item.typeName}
                     </MenuItem>

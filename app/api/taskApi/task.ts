@@ -23,7 +23,7 @@ export const createTaskApi = async (payload: ITaskCreate) => {
   }
 };
 
-export const sendPointTask = async (payload: ITaskSendPonit) => {
+export const sendPointTaskApi = async (payload: ITaskSendPonit) => {
   try {
     const response = await AxiosCustom.patch<IResponseDefault>(
       `/tasks/sendPoint`,
@@ -39,7 +39,7 @@ export const sendPointTask = async (payload: ITaskSendPonit) => {
   }
 };
 
-export const findAllByIdUser = async (id: string) => {
+export const findAllByIdUserApi = async (id: string) => {
   try {
     const response = await AxiosCustom.get<ITaskFindByUserId[]>(
       `/tasks/findAllByIdUser?userId=${id}`
@@ -54,7 +54,7 @@ export const findAllByIdUser = async (id: string) => {
   }
 };
 
-export const findCompletedByIdUser = async (id: string) => {
+export const findCompletedByIdUserApi = async (id: string) => {
   try {
     const response = await AxiosCustom.get<ITaskFindByUserIdCompleted[]>(
       `/tasks/findCompleteByIdUser?userId=${id}`
