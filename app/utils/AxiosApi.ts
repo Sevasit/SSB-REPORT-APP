@@ -1,7 +1,7 @@
 import axios from "axios";
 // import { getSession } from "next-auth/react";
 
-const baseURL = process.env.NEXT_PUBLIC_ENDPOINT_URL_DEV;
+const baseURL = process.env.NEXT_PUBLIC_ENDPOINT_URL_PROD;
 
 const AxiosCustom = axios.create({
   baseURL,
