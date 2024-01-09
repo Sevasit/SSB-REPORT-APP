@@ -6,12 +6,18 @@ import {
   ITaskSendPonit,
 } from "@/types/ITask";
 import AxiosCustom from "@/app/utils/AxiosApi";
+import axios from "axios";
 
 export const createTaskApi = async (payload: ITaskCreate) => {
   try {
-    const response = await AxiosCustom.post<IResponseDefault>(
+    const response = await axios.post<IResponseDefault>(
       `/tasks/create`,
-      payload
+      payload,
+      {
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
     );
     if (response?.data === undefined) {
       throw "error undefined";
