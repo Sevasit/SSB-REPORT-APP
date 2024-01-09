@@ -11,7 +11,7 @@ import axios from "axios";
 export const createTaskApi = async (payload: ITaskCreate) => {
   try {
     const response = await axios.post<IResponseDefault>(
-      `/tasks/create`,
+      `${process.env.NEXT_PUBLIC_ENDPOINT_URL_PROD}/tasks/create`,
       payload,
       {
         headers: {
