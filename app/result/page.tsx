@@ -7,18 +7,18 @@ import dayjs from "dayjs";
 import "dayjs/locale/th";
 import buddhistEra from "dayjs/plugin/buddhistEra";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { ITaskFindByUserIdCompleted, ITaskSendPonit } from "@/types/ITask";
-import { findCompletedByIdUser, sendPointTask } from "../api/taskApi/task";
+import { ITaskSendPonit } from "@/types/ITask";
 import {
   Card,
   CardContent,
   Dialog,
-  DialogActions,
   DialogContent,
   Rating,
 } from "@mui/material";
 import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
+import useGetTaskComplete from "@/hooks/tasks/useGetTaskComplete";
+import useSendPoint from "@/hooks/tasks/useSendPoint";
 dayjs.locale("th");
 dayjs.extend(buddhistEra);
 dayjs.extend(relativeTime);
@@ -27,9 +27,6 @@ type Props = {};
 
 const Result = (props: Props) => {
   const { data: session, status } = useSession();
-  const [dataFind, setDataFind] = React.useState<
-    ITaskFindByUserIdCompleted[] | []
-  >([]);
   const [idResult, setIdResult] = React.useState<string>("");
   const [openModal, setOpenModal] = React.useState(false);
   const [score, setScore] = React.useState<number>(0);
@@ -37,16 +34,17 @@ const Result = (props: Props) => {
   console.log(status);
   console.log("session", session);
 
-  React.useEffect(() => {
-    findCompletedByIdUser(session?.user.id!!)
-      .then((res) => {
-        console.log("resresresresres", res);
-        setDataFind(res);
-      })
-      .catch((err) => {
-        setDataFind([]);
-      });
-  }, [session?.user.id!!]);
+  const {
+    data: dataTaskComplete = [],
+    isLoading: taskCompleteISLoading,
+    isError: taskCompleteISError,
+  } = useGetTaskComplete(session?.user.id!!);
+
+  const {
+    mutateAsync: mutateAsyncSendPoint,
+    isLoading: sendPointISLoading,
+    isError: sendPointISError,
+  } = useSendPoint();
 
   const handleCloseSendPoint = () => {
     setOpenModal(false);
@@ -72,7 +70,7 @@ const Result = (props: Props) => {
       id: idResult,
       point: score,
     };
-    sendPointTask(payload)
+    mutateAsyncSendPoint(payload)
       .then((res) => {
         console.log(res.message);
         if (res.message === "Send point to task successfully") {
@@ -108,12 +106,12 @@ const Result = (props: Props) => {
             <div className="flex flex-col justify-center items-center gap-3">
               <div className=" border-2 rounded-md border-slate-400 shadow-md pt-2 overflow-y-scroll h-[450px] w-[300px]">
                 <div className="flex flex-col justify-center items-center gap-2">
-                  {dataFind.length === 0 ? (
+                  {dataTaskComplete.length === 0 ? (
                     <div className="flex justify-center items-center h-[440px]">
                       <div>ไม่มีข้อมูลรายงานผล</div>
                     </div>
                   ) : (
-                    dataFind.map((item, index) => (
+                    dataTaskComplete.map((item, index) => (
                       <Card
                         sx={{ minWidth: 270, maxHeight: 500 }}
                         key={item._id}
@@ -211,11 +209,10 @@ const Result = (props: Props) => {
         </div>
         <Dialog open={openModal} onClose={handleCloseModal}>
           <DialogContent style={{ minWidth: 300 }}>
-            <span>ให้คะเเนนความพึงพอใจ</span>
+            <div>ให้คะเเนนความพึงพอใจ</div>
             <Rating
               name="simple-controlled"
               value={score}
-              className="mt-2"
               defaultValue={0}
               size="large"
               onChange={(event, newValue) => {
@@ -223,7 +220,7 @@ const Result = (props: Props) => {
                 setScore(newValue!!);
               }}
             />
-            <div className="flex gap-3">
+            <div className="flex gap-3 mt-2">
               <button
                 type="button"
                 onClick={handleCloseSendPoint}

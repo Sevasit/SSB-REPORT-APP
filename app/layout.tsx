@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { NextAuthProvider } from "./providers";
 import FontPrompt from "../app/utils/customFonts";
+import QueryProvider from "./utils/QueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,7 @@ export default function RootLayout({
           style={{ fontFamily: "var(--font-prompt)" }}
           className={`${FontPrompt.variable}`}
         >
-          {children}
+          <QueryProvider>{children}</QueryProvider>
         </body>
       </html>
     </NextAuthProvider>

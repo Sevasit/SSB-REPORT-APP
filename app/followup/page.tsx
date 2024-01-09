@@ -3,16 +3,14 @@ import { useSession } from "next-auth/react";
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
-import { ITaskFindByUserId } from "../../types/ITask";
-import { findAllByIdUser } from "../api/taskApi/task";
 // Day.js
 import dayjs from "dayjs";
 import "dayjs/locale/th";
 import buddhistEra from "dayjs/plugin/buddhistEra";
 import relativeTime from "dayjs/plugin/relativeTime";
+import useGetTaskByUserId from "@/hooks/tasks/useGetTaskByUserId";
 dayjs.locale("th");
 dayjs.extend(buddhistEra);
 dayjs.extend(relativeTime);
@@ -21,20 +19,14 @@ type Props = {};
 
 const Followup = (props: Props) => {
   const { data: session, status } = useSession();
-  const [dataFind, setDataFind] = React.useState<ITaskFindByUserId[] | []>([]);
   console.log(status);
   console.log("session", session);
 
-  React.useEffect(() => {
-    findAllByIdUser(session?.user.id!!)
-      .then((res) => {
-        console.log("resresresresres", res);
-        setDataFind(res);
-      })
-      .catch((err) => {
-        setDataFind([]);
-      });
-  }, [session?.user.id!!]);
+  const {
+    data: dataFind = [],
+    isLoading: dataFindISLoading,
+    isError: dataFindISError,
+  } = useGetTaskByUserId(session?.user.id!!);
 
   function formatPhoneNumber(phoneNumber: string) {
     const formattedPhoneNumber = `${phoneNumber.slice(
