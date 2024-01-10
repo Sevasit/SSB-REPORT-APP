@@ -10,15 +10,9 @@ import axios from "axios";
 
 export const createTaskApi = async (payload: ITaskCreate) => {
   try {
-    const response = await axios.post<IResponseDefault>(
-      `${process.env.NEXT_PUBLIC_ENDPOINT_URL_PROD}/tasks/create`,
-      payload,
-      {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-        withCredentials: true,
-      }
+    const response = await AxiosCustom.post<IResponseDefault>(
+      `/tasks/create`,
+      payload
     );
     if (response?.data === undefined) {
       throw "error undefined";
