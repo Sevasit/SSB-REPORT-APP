@@ -33,6 +33,7 @@ export default function Report() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [dataImage, setDataImage] = React.useState("");
+  const [disableSubmit, setDisableSubmit] = React.useState<boolean>(false);
 
   const {
     data: dataTypes = [],
@@ -63,6 +64,7 @@ export default function Report() {
   console.log("session", session);
 
   const handleUpload = async (data: FormData) => {
+    setDisableSubmit(true);
     if (!dataImage) {
       toast.error("กรุณาถ่ายภาพปัญหาก่อนเเจ้ง", {
         style: {
@@ -119,6 +121,7 @@ export default function Report() {
               },
             });
           }
+          setDisableSubmit(false);
         })
         .catch((err) => {
           toast.error("เเจ้งปัญหาไม่สำเร็จ", {
@@ -132,10 +135,12 @@ export default function Report() {
               secondary: "#FFFAEE",
             },
           });
+          setDisableSubmit(false);
         });
     } catch (error) {
       console.error(error);
     } finally {
+      setDisableSubmit(false);
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -275,7 +280,9 @@ export default function Report() {
                 </Link>
                 <button
                   type="submit"
-                  className=" w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center"
+                  className={`${
+                    disableSubmit ? "cursor-not-allowed" : ""
+                  }w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center`}
                 >
                   <span>ยืนยัน</span>
                 </button>
