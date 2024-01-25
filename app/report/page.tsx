@@ -121,7 +121,6 @@ export default function Report() {
               },
             });
           }
-          setDisableSubmit(false);
         })
         .catch((err) => {
           toast.error("เเจ้งปัญหาไม่สำเร็จ", {
@@ -135,12 +134,10 @@ export default function Report() {
               secondary: "#FFFAEE",
             },
           });
-          setDisableSubmit(false);
         });
     } catch (error) {
       console.error(error);
     } finally {
-      setDisableSubmit(false);
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -280,6 +277,7 @@ export default function Report() {
                 </Link>
                 {disableSubmit ? (
                   <button
+                    type="button"
                     disabled
                     className={`cursor-not-allowed w-20 bg-gray-300 border-2 border-[#0f8d67] text-[#0f8d67] duration-300 shadow-md rounded-lg flex gap-1 justify-between px-4 items-center`}
                   >
