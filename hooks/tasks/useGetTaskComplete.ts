@@ -4,7 +4,7 @@ import { findCompletedByIdUserApi } from "@/app/api/taskApi/task";
 import { ITaskFindByUserIdCompleted } from "@/types/ITask";
 const useGetTaskComplete = (id: string) => {
   return useQuery<ITaskFindByUserIdCompleted[], { message: string }>(
-    [findCompletedByIdUser],
+    [findCompletedByIdUser, id],
     async () => await findCompletedByIdUserApi(id)
   );
 };

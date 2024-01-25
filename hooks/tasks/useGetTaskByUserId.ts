@@ -4,7 +4,7 @@ import { ITaskFindByUserId } from "@/types/ITask";
 import { findAllByIdUser } from "../QueriesKey";
 const useGetTaskByUserId = (id: string) => {
   return useQuery<ITaskFindByUserId[], { message: string }>(
-    [findAllByIdUser],
+    [findAllByIdUser, id],
     async () => await findAllByIdUserApi(id)
   );
 };
