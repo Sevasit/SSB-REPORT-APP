@@ -7,6 +7,7 @@ import Link from "next/link";
 import { TbLicense } from "react-icons/tb";
 import { TbStars } from "react-icons/tb";
 import { FaClockRotateLeft } from "react-icons/fa6";
+import { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -56,6 +57,7 @@ export default function Home() {
           </div>
         </div>
       </div>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
