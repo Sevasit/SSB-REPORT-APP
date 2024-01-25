@@ -278,14 +278,21 @@ export default function Report() {
                     <span>ยกเลิก</span>
                   </div>
                 </Link>
-                <button
-                  type="submit"
-                  className={`${
-                    disableSubmit ? "cursor-not-allowed" : ""
-                  }w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center`}
-                >
-                  <span>ยืนยัน</span>
-                </button>
+                {disableSubmit ? (
+                  <button
+                    type="submit"
+                    className={`cursor-not-allowed w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md rounded-lg flex gap-1 justify-between px-4 items-center`}
+                  >
+                    <span>ยืนยัน</span>
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className={`w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center`}
+                  >
+                    <span>ยืนยัน</span>
+                  </button>
+                )}
               </div>
             </form>
           </div>
