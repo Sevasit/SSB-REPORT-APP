@@ -180,7 +180,7 @@ const Result = (props: Props) => {
                             <button
                               type="button"
                               onClick={() => handleClickOpen(item._id)}
-                              className=" text-xs mt-2 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center"
+                              className=" text-xs mt-2 bg-[#00DC82] border-2 border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
                             >
                               ให้คะเเนนความพึงพอใจ
                             </button>
@@ -188,7 +188,7 @@ const Result = (props: Props) => {
                             <button
                               type="button"
                               disabled
-                              className="cursor-not-allowed text-xs mt-2 bg-gray-300 border-2 border-[#0f8d67] text-black duration-300 shadow-md rounded-lg flex gap-1 justify-between px-4 items-center"
+                              className="cursor-not-allowed text-xs mt-2 bg-gray-300 border-2 border-[#0f8d67] text-black shadow-md rounded-lg flex gap-1 justify-center px-4 items-center"
                             >
                               ให้คะเเนนความพึงพอใจ
                             </button>
@@ -201,7 +201,7 @@ const Result = (props: Props) => {
               </div>
             </div>
             <Link href="/">
-              <div className=" text-sm w-24 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#b91515] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center">
+              <div className=" text-sm w-24 bg-[#00DC82] border-2 border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center">
                 <span>กลับสู่เมนู</span>
               </div>
             </Link>
@@ -224,14 +224,14 @@ const Result = (props: Props) => {
               <button
                 type="button"
                 onClick={handleCloseSendPoint}
-                className=" mt-2 w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
+                className=" mt-2 w-20 bg-[#b91515] border-2 border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
               >
                 <span>ยกเลิก</span>
               </button>
               <button
                 type="button"
                 onClick={submitScore}
-                className=" mt-2 w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
+                className=" mt-2 w-20 bg-[#00DC82] border-2 border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
               >
                 <span>ยืนยัน</span>
               </button>

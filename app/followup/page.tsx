@@ -97,6 +97,8 @@ const Followup = (props: Props) => {
                               ? " text-xs bg-gray-300 px-1 rounded-md"
                               : item.status === "approve"
                               ? "text-xs px-1 bg-[#dc8000] rounded-md"
+                              : item.status === "reject"
+                              ? "text-xs px-1 bg-[#b91515] rounded-md"
                               : "text-xs px-1 bg-[#00DC82] rounded-md"
                           }`}
                         >
@@ -104,6 +106,8 @@ const Followup = (props: Props) => {
                             ? "รอการยืนยัน"
                             : item.status === "approve"
                             ? "รอดำเนินการให้สำเร็จ"
+                            : item.status === "reject"
+                            ? "ปัญหาถูกปฏิเสธ"
                             : "เเก้ปัญหาสำเร็จ"}
                         </span>
                       </div>
@@ -127,7 +131,7 @@ const Followup = (props: Props) => {
           </div>
           <div>
             <Link href="/">
-              <div className=" text-sm w-24 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#b91515] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center">
+              <div className=" text-sm w-24 bg-[#00DC82] border-2 border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center">
                 <span>กลับสู่เมนู</span>
               </div>
             </Link>

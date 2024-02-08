@@ -271,7 +271,7 @@ export default function Report() {
 
               <div className="flex gap-10 items-start md:justify-end justify-center md:items-center mt-5">
                 <Link href="/">
-                  <div className=" w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#b91515] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center">
+                  <div className=" w-20 bg-[#b91515] border-2 border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center">
                     <span>ยกเลิก</span>
                   </div>
                 </Link>
@@ -279,14 +279,14 @@ export default function Report() {
                   <button
                     type="button"
                     disabled
-                    className={`cursor-not-allowed w-20 bg-gray-300 border-2 border-[#0f8d67] text-[#0f8d67] duration-300 shadow-md rounded-lg flex gap-1 justify-between px-4 items-center`}
+                    className={`cursor-not-allowed w-20 bg-gray-300 border-2 border-[#0f8d67] text-[#0f8d67] shadow-md rounded-lg flex gap-1 justify-center px-4 items-center`}
                   >
                     <span>ยืนยัน</span>
                   </button>
                 ) : (
                   <button
                     type="submit"
-                    className={`w-20 bg-white border-2 border-[#0f8d67] text-[#0f8d67] hover:bg-[#00DC82] hover:border-black hover:text-white duration-300 shadow-md cursor-pointer rounded-lg flex gap-1 justify-between px-4 items-center`}
+                    className={`w-20 border-2 bg-[#00DC82] border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center`}
                   >
                     <span>ยืนยัน</span>
                   </button>
