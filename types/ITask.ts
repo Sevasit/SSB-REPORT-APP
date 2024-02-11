@@ -15,9 +15,13 @@ export interface ITaskFindByUserId {
   _id: string;
   phone: string;
   remark: string;
-  type: string;
+  type: {
+    typeName: string;
+  };
   status: string;
-  building: string;
+  building: {
+    nameBuilding: string;
+  };
   location: string;
   imageStart: string;
   createdAt: Dayjs;
@@ -26,9 +30,13 @@ export interface ITaskFindByUserId {
 export interface ITaskFindByUserIdCompleted {
   _id: string;
   imageEnd: string;
-  type: string;
+  type: {
+    typeName: string;
+  };
   status: string;
-  building: string;
+  building: {
+    nameBuilding: string;
+  };
   location: string;
   processAt: Dayjs;
   createdAt: Dayjs;

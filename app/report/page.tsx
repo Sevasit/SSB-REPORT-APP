@@ -167,7 +167,7 @@ export default function Report() {
                   color="success"
                 >
                   {dataTypes.map((item, index) => (
-                    <MenuItem key={item._id} value={item.typeName}>
+                    <MenuItem key={item._id} value={item._id}>
                       {item.typeName}
                     </MenuItem>
                   ))}
@@ -207,7 +207,7 @@ export default function Report() {
                   color="success"
                 >
                   {dataBuilding.map((item, index) => (
-                    <MenuItem key={item._id} value={item.nameBuilding}>
+                    <MenuItem key={item._id} value={item._id}>
                       {item.nameBuilding}
                     </MenuItem>
                   ))}
