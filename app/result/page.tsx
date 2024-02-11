@@ -129,11 +129,15 @@ const Result = (props: Props) => {
                         <CardContent>
                           <div>
                             <span className=" font-extrabold text-black text-sm">{`ประเภทปัญหา : `}</span>
-                            <span className=" text-xs">{item.type}</span>
+                            <span className=" text-xs">
+                              {item.type.typeName}
+                            </span>
                           </div>
                           <div>
                             <span className=" font-extrabold text-black text-sm">{`อาคาร : `}</span>
-                            <span className=" text-xs">{item.building}</span>
+                            <span className=" text-xs">
+                              {item.building.nameBuilding}
+                            </span>
                           </div>
                           <div className=" font-extrabold text-black text-sm">
                             รายละเอียดสถานที่
