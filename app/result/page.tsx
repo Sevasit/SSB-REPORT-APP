@@ -19,6 +19,7 @@ import Image from "next/image";
 import toast, { Toaster } from "react-hot-toast";
 import useGetTaskComplete from "@/hooks/tasks/useGetTaskComplete";
 import useSendPoint from "@/hooks/tasks/useSendPoint";
+import { set } from "react-hook-form";
 dayjs.locale("th");
 dayjs.extend(buddhistEra);
 dayjs.extend(relativeTime);
@@ -30,6 +31,7 @@ const Result = (props: Props) => {
   const [idResult, setIdResult] = React.useState<string>("");
   const [openModal, setOpenModal] = React.useState(false);
   const [score, setScore] = React.useState<number>(0);
+  const [disableSubmit, setDisableSubmit] = React.useState<boolean>(false);
 
   console.log(status);
   console.log("session", session);
@@ -52,6 +54,7 @@ const Result = (props: Props) => {
   };
 
   const submitScore = () => {
+    setDisableSubmit(true);
     if (score === 0) {
       toast.error("กรุณาให้คะเเนนความพึงพอใจก่อนส่ง", {
         style: {
@@ -64,6 +67,7 @@ const Result = (props: Props) => {
           secondary: "#FFFAEE",
         },
       });
+      setDisableSubmit(false);
       return;
     }
     const payload: ITaskSendPonit = {
@@ -76,12 +80,17 @@ const Result = (props: Props) => {
         if (res.message === "Send point to task successfully") {
           toast.success("ให้คะเเนนความพึงพอใจสำเร็จ");
           setOpenModal(false);
+          setScore(0);
+          setDisableSubmit(false);
         } else {
           toast.error("ให้คะเเนนความพึงพอใจไม่สำเร็จ");
+          setScore(0);
+          setDisableSubmit(false);
         }
         setOpenModal(false);
       })
       .catch((err) => {
+        setDisableSubmit(false);
         toast.error("ให้คะเเนนความพึงพอใจไม่สำเร็จ");
       });
   };
@@ -232,13 +241,23 @@ const Result = (props: Props) => {
               >
                 <span>ยกเลิก</span>
               </button>
-              <button
-                type="button"
-                onClick={submitScore}
-                className=" mt-2 w-20 bg-[#00DC82] border-2 border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
-              >
-                <span>ยืนยัน</span>
-              </button>
+              {disableSubmit ? (
+                <button
+                  type="button"
+                  disabled
+                  className=" mt-2 w-20 bg-gray-300 border-2 border-[#0f8d67] text-black shadow-md cursor-not-allowed rounded-lg flex gap-1 justify-center px-4 items-center"
+                >
+                  <span>ยืนยัน</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={submitScore}
+                  className=" mt-2 w-20 bg-[#00DC82] border-2 border-black text-white shadow-md cursor-pointer rounded-lg flex gap-1 justify-center px-4 items-center"
+                >
+                  <span>ยืนยัน</span>
+                </button>
+              )}
             </div>
           </DialogContent>
         </Dialog>
