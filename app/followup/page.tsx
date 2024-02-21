@@ -19,8 +19,6 @@ type Props = {};
 
 const Followup = (props: Props) => {
   const { data: session, status } = useSession();
-  console.log(status);
-  console.log("session", session);
 
   const {
     data: dataFind = [],

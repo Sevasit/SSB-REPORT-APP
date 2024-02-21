@@ -60,9 +60,6 @@ export default function Report() {
     formState: { errors },
   } = useForm<FormData>();
 
-  console.log(status);
-  console.log("session", session);
-
   const handleUpload = async (data: FormData) => {
     setDisableSubmit(true);
     if (!dataImage) {
@@ -89,7 +86,6 @@ export default function Report() {
         formData
       );
       const url = response.data.secure_url;
-      console.log(url);
       if (!url) {
         return;
       }

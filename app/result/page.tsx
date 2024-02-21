@@ -33,9 +33,6 @@ const Result = (props: Props) => {
   const [score, setScore] = React.useState<number>(0);
   const [disableSubmit, setDisableSubmit] = React.useState<boolean>(false);
 
-  console.log(status);
-  console.log("session", session);
-
   const {
     data: dataTaskComplete = [],
     isLoading: taskCompleteISLoading,
@@ -76,7 +73,6 @@ const Result = (props: Props) => {
     };
     mutateAsyncSendPoint(payload)
       .then((res) => {
-        console.log(res.message);
         if (res.message === "Send point to task successfully") {
           toast.success("ให้คะเเนนความพึงพอใจสำเร็จ");
           setOpenModal(false);
@@ -96,7 +92,6 @@ const Result = (props: Props) => {
   };
 
   const handleClickOpen = (id: string) => {
-    console.log(id);
     setIdResult(id);
     setOpenModal(true);
   };
@@ -229,7 +224,6 @@ const Result = (props: Props) => {
               defaultValue={0}
               size="large"
               onChange={(event, newValue) => {
-                console.log(newValue);
                 setScore(newValue!!);
               }}
             />
